@@ -16,7 +16,9 @@ contract PupperCoinSale is Crowdsale, MintedCrowdsale, CappedCrowdsale, TimedCro
         address payable wallet,
         PupperCoin token,
         uint256 openTime,
-        uint256 closeTime
+        uint256 closeTime,
+        uint cap,
+        uint goal
     )
         // @TODO: Pass the constructor parameters to the crowdsale contracts.
         public
@@ -47,8 +49,10 @@ contract PupperCoinSaleDeployer {
         tokenAddress = address(token);
 
         // @TODO: create the PupperCoinSale and tell it about the token, set the goal, and set the open and close times to now and now + 24 weeks.
-        PupperCoinSale pupperSale = new PupperCoinSale (1, wallet, token, now, now+24 weeks, 100, 50);
+        PupperCoinSale pupperSale = new PupperCoinSale (1, wallet, token, now, now+24 weeks, 10, 5);
         tokenSaleAddress = address(pupperSale);
         // make the PupperCoinSale contract a minter, then have the PupperCoinSaleDeployer renounce its minter role
         token.addMinter(tokenSaleAddress);
         token.renounceMinter();
+    }
+}
